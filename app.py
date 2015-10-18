@@ -7,7 +7,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.secret_key = "My Previous"
 #app.database = "sample.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://btxtrmxejekcle:W4M4DI3eXD22MtvDX7ILKDIYHE@ec2-54-204-15-48.compute-1.amazonaws.com:5432/d42s8frif1eaa5'
 
 #create the db
 db = SQLAlchemy(app)
