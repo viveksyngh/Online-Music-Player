@@ -5,6 +5,8 @@
 from flask import flash, redirect, render_template, request, \
     session, url_for, Blueprint
 from functools import wraps
+#from forms import LoginForm
+from project.model import User, bcrypt
 
 ################
 #### config ####
@@ -39,16 +41,22 @@ def login_required(test):
 @users_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
+    #flash(user)
     if request.method == 'POST':
-        if (request.form['username'] != 'admin') \
-                or request.form['password'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
-        else:
+        user = User.query.filter_by(name=request.form['username']).first()
+        #flash(user.name)
+        #flash(user.password)
+        #flash(result)
+        if user is not None and bcrypt.check_password_hash(user.password, request.form['password']):
             session['logged_in'] = True
             flash('You were logged in.')
             return redirect(url_for('home.home'))
-    return render_template('login.html', error=error)
 
+        #if (request.form['username'] != 'admin') \
+        #        or request.form['password'] != 'admin':    
+        else:
+            error = 'Invalid Credentials. Please try again.'
+    return render_template('login.html', error=error)
 
 @users_blueprint.route('/logout')
 @login_required
