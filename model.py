@@ -1,4 +1,4 @@
-from app import db
+from app import db, bcrypt
 from sqlalchemy.orm import relationship
 from sqlalchemy import ForeignKey
 

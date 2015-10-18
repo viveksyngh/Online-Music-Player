@@ -1,11 +1,13 @@
 from flask import Flask, render_template, url_for, request, redirect, session, flash, g
 from functools import wraps
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.bcrypt import Bcrypt
 #import sqlite3
 
 
 app = Flask(__name__)
-app.secret_key = "My Previous"
+bcrypt = Bcrypt(app)
+app.secret_key = '\xd9Wvyg\x86\x9e*\xc4}\x15\x85\xb5ms\r\xb0E\x11\xbe\r`\xe1\xbd'
 #app.database = "sample.db"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://btxtrmxejekcle:W4M4DI3eXD22MtvDX7ILKDIYHE@ec2-54-204-15-48.compute-1.amazonaws.com:5432/d42s8frif1eaa5'
