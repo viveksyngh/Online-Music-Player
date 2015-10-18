@@ -2,16 +2,13 @@
 {% block content %}
 <link href="../static/signin.css" rel="stylesheet">
 
- 
 <div class="container">
-      
+
       <form class="form-signin" method="post" action="">
-        <h2 class="form-signin-heading">Please Login</h2>
-        <br>
-        <label for="inputEmail" class="sr-only">Username</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Username" name="username" value="{{
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="text" id="inputEmail" class="form-control" placeholder="Email address" name="username" value="{{
           request.form.username }}" required autofocus>
-        <br>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" value="{{
           request.form.password }}" required>
@@ -21,10 +18,6 @@
           </label>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form> 
-
+      </form>
 </div>
-<strong>
-    <p> Don't have account? Click <a href="/register/">here </a> to register!</p> </strong>
-
 {% endblock %}
