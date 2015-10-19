@@ -1,9 +1,14 @@
 #### imports ####
 #################
 from project import app, db
-from project.model import BlogPost
-from flask import flash, redirect, session, url_for, render_template, Blueprint
+from project import ALLOWED_EXTENSIONS
+from project.model import BlogPost, User
+from flask import flash, redirect, session, url_for, render_template, Blueprint, request
 from functools import wraps
+from forms import MessageForm
+from flask.ext.login import login_user, current_user, login_required
+from werkzeug import secure_filename
+import os
 
 ################
 #### config ####
@@ -15,21 +20,6 @@ home_blueprint = Blueprint(
 )
 
 '''
-app = Flask(__name__)
-#bcrypt = Bcrypt(app)
-app.secret_key = '\xd9Wvyg\x86\x9e*\xc4}\x15\x85\xb5ms\r\xb0E\x11\xbe\r`\xe1\xbd'
-#app.database = "sample.db"
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://btxtrmxejekcle:W4M4DI3eXD22MtvDX7ILKDIYHE@ec2-54-204-15-48.compute-1.amazonaws.com:5432/d42s8frif1eaa5'
-
-#create the db
-db = SQLAlchemy(app)
-
-from model import *
-from project.users.views import users_blueprint
-
-# register our blueprints
-app.register_blueprint(users_blueprint) '''
 
 #Login required Decorators
 def login_required(test):
@@ -41,13 +31,55 @@ def login_required(test):
             flash('You need to login first.')
             return redirect(url_for('users.login'))
     return wrap
+.'''
+@home_blueprint.route('/', methods=['GET', 'POST'])   # pragma: no cover
+@login_required   # pragma: no cover
+def home():
+    error = None
+    form = MessageForm(request.form)
+    if form.validate_on_submit():
+        new_message = BlogPost(
+            form.title.data,
+            form.description.data,
+            current_user.id
+        )
+        db.session.add(new_message)
+        db.session.commit()
+        flash('New entry was successfully posted. Thanks.')
+        return redirect(url_for('home.home'))
+    else:
+        posts = db.session.query(BlogPost).all()
+        songs = os.listdir(os.path.abspath(app.config['UPLOAD_FOLDER']))
+        return render_template(
+            'index.html', posts=posts, form=form, error=error, songs=songs, folder=os.path.abspath(app.config['UPLOAD_FOLDER']))
 
-@home_blueprint.route('/')
-@login_required
-def home() :
-	#return "Hello, World!"
-	posts = db.session.query(BlogPost).all()
-	return render_template('index.html', posts=posts)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+
+#@home_blueprint.route('/uploader')
+#def uploader() :
+#   return render_template("upload.html")
+
+
+@home_blueprint.route('/upload', methods=['GET', 'POST'])   # pragma: no cover
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('home.home'))
+    return render_template("upload.html")
+
+#@home_blueprint.route('/')
+#@login_required
+#def home() :
+#	#return "Hello, World!"
+#	posts = db.session.query(BlogPost).all()
+#	return render_template('index.html', posts=posts)
 
 @home_blueprint.route('/welcome')
 def welcome() :

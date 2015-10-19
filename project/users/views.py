@@ -7,7 +7,7 @@ from flask import flash, redirect, render_template, request, \
 from flask.ext.login import login_user, login_required, logout_user
 from functools import wraps
 from forms import LoginForm, RegisterForm
-from project import db
+from project import db, bcrypt
 from project.model import User, bcrypt
 
 ################
@@ -23,7 +23,7 @@ users_blueprint = Blueprint(
 #### helper functions ####
 ##########################
 
-
+'''
 def login_required(test):
     @wraps(test)
     def wrap(*args, **kwargs):
@@ -33,7 +33,7 @@ def login_required(test):
             flash('You need to login first.')
             return redirect(url_for('users.login'))
     return wrap
-
+'''
 
 ################
 #### routes ####
@@ -50,7 +50,8 @@ def login():
         #flash(user.password)
         #flash(result)
         if user is not None and bcrypt.check_password_hash(user.password, request.form['password']):
-            session['logged_in'] = True
+            #session['logged_in'] = True
+            login_user(user)
             flash('You were logged in.')
             return redirect(url_for('home.home'))
 
@@ -79,6 +80,7 @@ def register():
 @users_blueprint.route('/logout')
 @login_required
 def logout():
-    session.pop('logged_in', None)
+    #session.pop('logged_in', None)
+    logout_user()
     flash('You were logged out.')
     return redirect(url_for('home.welcome'))
