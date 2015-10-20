@@ -15,7 +15,8 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-UPLOAD_FOLDER = "project\home\uploads"
+#UPLOAD_FOLDER = "project\home\uploads"
+UPLOAD_FOLDER = "project/home/uploads"
 ALLOWED_EXTENSIONS = set(['mp3', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.secret_key = '\xd9Wvyg\x86\x9e*\xc4}\x15\x85\xb5ms\r\xb0E\x11\xbe\r`\xe1\xbd'
 #app.database = "sample.db"
