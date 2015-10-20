@@ -20,6 +20,7 @@ class BlogPost(db.Model):
         return '<title {}'.format(self.title)
 
 
+
 class User(db.Model):
 
     __tablename__ = "users"
@@ -29,6 +30,7 @@ class User(db.Model):
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String)
     posts = relationship("BlogPost", backref="author")
+    track = relationship("Track", backref="uploaded_by")
 
     def __init__(self, name, email, password):
         self.name = name
@@ -51,3 +53,29 @@ class User(db.Model):
         return '<name - {}>'.format(self.name)
 		
 
+class Track(db.Model):
+
+    """Model for storing track information"""
+
+    __tablename__ = "track"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(140), unique=True)
+    uri = db.Column(db.String(50), unique=True)
+    upvote = db.Column(db.Integer, nullable=False)
+    downvote = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    #track_id = db.Column(db.String(140), unique=True)
+
+
+    def __init__(self, title, uri, user_id, upvote, downvote):
+        self.title = title
+        #self.track_id = track_id
+        self.uri = uri
+        self.user_id = user_id
+        self.upvote = upvote
+        self.downvote = downvote
+
+    def __repr__(self):
+        return '<Track %r>' % (self.title)
+        

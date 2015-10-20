@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h1>Welcome to Online Music Player</h1>
+<h1 align="center">Online Music Player</h1>
+<a href="/" align="right" class="btn btn-info btn-lg">Home</a><span>&nbsp; &nbsp; &nbsp; &nbsp;</span> 
+  <a href="/upload" align="right" class="btn btn-info btn-lg">Upload</a><span>&nbsp; &nbsp; &nbsp; &nbsp;</span> 
+  <a href="/logout" align="right" class="btn btn-info btn-lg">Log out </a><span>&nbsp; &nbsp; &nbsp; &nbsp;</span> 
 <br>
-<p>Click <a href="/logout">here</a> to logout.</p>
+<h2>Welcome {{ username }} !!</h2>
 <br>
 <!--
 <div class="container">
@@ -33,7 +35,6 @@
   </p>
   <button class="btn  btn-lg btn-primary" type="submit">Post</button>
 </form> -->
-<strong><p>Click <a href="/upload" > here </a> to upload a song </a> </strong>
 <!-- All posts -->
 <!--<h3>Posts:</h3>
 {% for post in posts %}
@@ -44,12 +45,32 @@
 {% endfor %} -->
 
 <!-- All Songs --> 
-<audio   src="C:\Users\Vivek\Desktop\uploads\Songs.PK_01_-_Abhi_Toh_Party_Shuru_Hui_Hai.mp3"></audio>
-<h3>Songs:</h3>
-{% for song in songs %}
- <strong>{{ song }}</strong>
+<h2>Playlist :</h2>
+<!--<audio controls id="a1" preload="auto" autoplay src="\home\uploads\Songs.PK_01_-_Phatte_Tak_Nachna.mp3" muted="muted"></audio>  -->
+{% for track in tracks %}
+ <strong>{{ track.title }}</strong>
  <br>
-  <audio controls id="a1" preload="auto" autoplay src={{ folder + '\\'+ song }} ></audio>
+ <br>
+  <audio controls preload="auto" autoplay src="{{ track.uri }}" ></audio>  <strong>Uploaded by :</strong> {{ track.uploaded_by.name }} 
+  <span>&nbsp; &nbsp;</span>
+  <strong>Upvotes :</strong> {{ track.upvote }} <span>&nbsp; &nbsp;</span> <strong>Downvotes :</strong> {{ track.downvote }}
+  <table>
+  <tr>
+  <td>
+    <form action="/upvote" method="post">
+    <input type="hidden" name="id" value="{{ track.id }}">
+    <button type="submit" class="btn btn-success">Upvote</button>
+    </form>
+  </td>
+  <td>
+    <form action="/downvote" method="post">
+    <input type="hidden" name="id" value="{{ track.id }}">
+    <button type="submit" class="btn btn-danger">Downvote</button>
+    </form>
+  </td>
+</tr>
+</table>
+<br>
 <br>
 {% endfor %}
 
