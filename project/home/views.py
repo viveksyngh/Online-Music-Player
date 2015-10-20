@@ -62,7 +62,7 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             new_track = Track(
                 filename, 
-                os.path.join(app.config['UPLOAD_FOLDER'], filename), 
+                os.path.join(app.config['UPLOAD_FOLDER'].replace('project','..'), filename), 
                 current_user.id,
                 0, 0
                 )

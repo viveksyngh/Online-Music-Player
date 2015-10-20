@@ -8,13 +8,13 @@
 <h2>Welcome {{ username }} !!</h2>
 <br>
 <!-- All Songs --> 
+<!--<audio controls preload="auto" src="../static/uploads/Abhi_Toh_Party_Shuru_Hui_Hai.mp3"></audio> -->
 <h2>Playlist :</h2>
-<!--<audio controls id="a1" preload="auto" autoplay src="\home\uploads\Songs.PK_01_-_Phatte_Tak_Nachna.mp3" muted="muted"></audio>  -->
 {% for track in tracks %}
  <strong>{{ track.title }}</strong>
  <br>
  <br>
-  <audio controls preload="auto" autoplay src="{{ track.uri }}" ></audio>  <strong>Uploaded by :</strong> {{ track.uploaded_by.name }} 
+  <audio controls src="{{ track.uri }}" ></audio>  <strong>Uploaded by :</strong> {{ track.uploaded_by.name }} 
   <span>&nbsp; &nbsp;</span>
   <strong>Upvotes :</strong> {{ track.upvote }} <span>&nbsp; &nbsp;</span> <strong>Downvotes :</strong> {{ track.downvote }}
   <table>
