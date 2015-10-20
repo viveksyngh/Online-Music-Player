@@ -60,8 +60,8 @@ class Track(db.Model):
     __tablename__ = "track"
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(140), unique=True)
-    uri = db.Column(db.String(50), unique=True)
+    title = db.Column(db.String(200), unique=True)
+    uri = db.Column(db.String(200), unique=True)
     upvote = db.Column(db.Integer, nullable=False)
     downvote = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
