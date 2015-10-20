@@ -19,19 +19,6 @@ home_blueprint = Blueprint(
     template_folder='templates'
 )
 
-'''
-
-#Login required Decorators
-def login_required(test):
-    @wraps(test)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return test(*args, **kwargs)
-        else:
-            flash('You need to login first.')
-            return redirect(url_for('users.login'))
-    return wrap
-.'''
 @home_blueprint.route('/', methods=['GET', 'POST'])   # pragma: no cover
 @login_required   # pragma: no cover
 def home():
@@ -48,7 +35,7 @@ def home():
         flash('New entry was successfully posted. Thanks.')
         return redirect(url_for('home.home'))
     else:
-        tracks = db.session.query(Track).all()
+        tracks = db.session.query(Track).order_by(Track.upvote.desc()).all()
         user = User.query.filter_by(id=current_user.id).first()
         #songs = os.listdir(os.path.abspath(app.config['UPLOAD_FOLDER']))
         #folder=os.path.abspath(app.config['UPLOAD_FOLDER'])

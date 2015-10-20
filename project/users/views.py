@@ -23,17 +23,6 @@ users_blueprint = Blueprint(
 #### helper functions ####
 ##########################
 
-'''
-def login_required(test):
-    @wraps(test)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return test(*args, **kwargs)
-        else:
-            flash('You need to login first.')
-            return redirect(url_for('users.login'))
-    return wrap
-'''
 
 ################
 #### routes ####
