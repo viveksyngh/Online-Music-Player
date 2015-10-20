@@ -15,20 +15,18 @@
  <br>
  <br>
   <audio controls src="{{ track.uri }}" ></audio>  <strong>Uploaded by :</strong> {{ track.uploaded_by.name }} 
-  <span>&nbsp; &nbsp;</span>
-  <strong>Upvotes :</strong> {{ track.upvote }} <span>&nbsp; &nbsp;</span> <strong>Downvotes :</strong> {{ track.downvote }}
   <table>
   <tr>
   <td>
     <form action="/upvote" method="post">
     <input type="hidden" name="id" value="{{ track.id }}">
-    <button type="submit" class="btn btn-success">Upvote</button>
+    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> {{ track.upvote }} </button> 
     </form>
   </td>
   <td>
     <form action="/downvote" method="post">
     <input type="hidden" name="id" value="{{ track.id }}">
-    <button type="submit" class="btn btn-danger">Downvote</button>
+    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-thumbs-down"></span> {{ track.downvote }} </button>
     </form>
   </td>
 </tr>

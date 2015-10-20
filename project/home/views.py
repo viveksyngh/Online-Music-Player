@@ -91,8 +91,10 @@ def upvote() :
             #db.session.commit()
         elif select_votes.upvote_flag == 0 :
             select_votes.upvote_flag = 1
-            #db.session.commit()
             track.upvote += 1
+            if select_votes.downvote_flag == 1:
+            #db.session.commit()
+                track.downvote -= 1
             #db.session.commit()
         else :
             select_votes.upvote_flag = 0
@@ -121,8 +123,11 @@ def downvote() :
             #db.session.commit()
         elif select_votes.downvote_flag == 0 :
             select_votes.downvote_flag = 1
-            #db.session.commit()
             track.downvote += 1
+            if select_votes.upvote_flag == 1 :
+
+            #db.session.commit()
+                track.upvote -= 1
             #db.session.commit()
         else :
             select_votes.downvote_flag = 0
