@@ -78,4 +78,25 @@ class Track(db.Model):
 
     def __repr__(self):
         return '<Track %r>' % (self.title)
+
+class Track_Vote(db.Model):
+    
+    """Model for tracking upvotes and downvotes by users""" 
+
+    __tablename__ = "trackvote"
+
+    id = db.Column(db.Integer, primary_key=True)
+    track_id = db.Column(db.Integer, db.ForeignKey('track.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    upvote_flag = db.Column(db.Integer, nullable=False)
+    downvote_flag = db.Column(db.Integer, nullable=False)
+
+
+    def __init__(self, track_id, user_id, upvote_flag, downvote_flag):
+        self.track_id = track_id
+        self.user_id = user_id
+        self.upvote_flag = upvote_flag
+        self.downvote_flag = downvote_flag
+    
+        
         

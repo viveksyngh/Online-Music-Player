@@ -2,7 +2,7 @@
 #################
 from project import app, db
 from project import ALLOWED_EXTENSIONS
-from project.model import BlogPost, User, Track
+from project.model import BlogPost, User, Track, Track_Vote
 from flask import flash, redirect, session, url_for, render_template, Blueprint, request
 from functools import wraps
 from forms import MessageForm
@@ -73,12 +73,34 @@ def upload():
     return render_template("upload.html")
 
 
+
 @home_blueprint.route('/upvote', methods=['GET', 'POST']) 
 def upvote() :
     if request.method == 'POST' :
         track_id = request.form['id']
         track = Track.query.filter_by(id=request.form['id']).first()
-        track.upvote += 1
+        select_votes = Track_Vote.query.filter_by(user_id=current_user.id, track_id=track_id).first()
+        if select_votes == None :
+            new_vote = Track_Vote(track_id,
+                current_user.id,
+                1,
+                0)
+            db.session.add(new_vote)
+            #db.session.commit()
+            track.upvote += 1
+            #db.session.commit()
+        elif select_votes.upvote_flag == 0 :
+            select_votes.upvote_flag = 1
+            #db.session.commit()
+            track.upvote += 1
+            #db.session.commit()
+        else :
+            select_votes.upvote_flag = 0
+            #db.session.commit()
+            track.upvote -= 1
+            #db.session.commit()
+        #track_id = request.form['id']
+        #track = Track.query.filter_by(id=request.form['id']).first()
         db.session.commit()
     return redirect(url_for('home.home'))
 
@@ -87,7 +109,26 @@ def downvote() :
     if request.method == 'POST' :
         track_id = request.form['id']
         track = Track.query.filter_by(id=request.form['id']).first()
+        #select_votes = Track_Vote.query.filter_by(user_id=current_user.id, track_id=track_id).first()
+        #if select_votes == None:
+        #    new_vote = Track_Vote(track_id,
+        #        current_user.id,
+        #        0,
+        #        1)
+        #    db.session.add(new_vote)
+            #db.session.commit()
         track.downvote += 1
+            #db.session.commit()
+        #elif select_votes.downvote_flag == 0 :
+        #    select_votes.downvote_flag = 1
+            #db.session.commit()
+        #    track.downvote += 1
+            #db.session.commit()
+        #else :
+        #    select_votes.downvote_flag = 0
+            #db.session.commit()
+        #    track.downvote -= 1
+            #db.session.commit()
         db.session.commit()
     return redirect(url_for('home.home'))
 
