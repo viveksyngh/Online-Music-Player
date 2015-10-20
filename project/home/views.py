@@ -109,25 +109,25 @@ def downvote() :
     if request.method == 'POST' :
         track_id = request.form['id']
         track = Track.query.filter_by(id=request.form['id']).first()
-        #select_votes = Track_Vote.query.filter_by(user_id=current_user.id, track_id=track_id).first()
-        #if select_votes == None:
-        #    new_vote = Track_Vote(track_id,
-        #        current_user.id,
-        #        0,
-        #        1)
-        #    db.session.add(new_vote)
+        select_votes = Track_Vote.query.filter_by(user_id=current_user.id, track_id=track_id).first()
+        if select_votes == None:
+            new_vote = Track_Vote(track_id,
+                current_user.id,
+                0,
+                1)
+            db.session.add(new_vote)
             #db.session.commit()
-        track.downvote += 1
+            track.downvote += 1
             #db.session.commit()
-        #elif select_votes.downvote_flag == 0 :
-        #    select_votes.downvote_flag = 1
+        elif select_votes.downvote_flag == 0 :
+            select_votes.downvote_flag = 1
             #db.session.commit()
-        #    track.downvote += 1
+            track.downvote += 1
             #db.session.commit()
-        #else :
-        #    select_votes.downvote_flag = 0
+        else :
+            select_votes.downvote_flag = 0
             #db.session.commit()
-        #    track.downvote -= 1
+            track.downvote -= 1
             #db.session.commit()
         db.session.commit()
     return redirect(url_for('home.home'))
