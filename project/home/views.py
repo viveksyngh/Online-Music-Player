@@ -55,6 +55,7 @@ def allowed_file(filename):
 
 @home_blueprint.route('/upload', methods=['GET', 'POST'])   # pragma: no cover
 def upload():
+    user = User.query.filter_by(id=current_user.id).first()
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
@@ -70,7 +71,7 @@ def upload():
             db.session.commit()
             flash('New song was successfully uploaded. Thanks.')
             return redirect(url_for('home.home'))
-    return render_template("upload.html")
+    return render_template("upload.html", username=user.name)
 
 
 

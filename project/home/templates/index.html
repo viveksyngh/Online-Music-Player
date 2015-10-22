@@ -1,6 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 align="center">Online Music Player</h1>
+
+<div class="container">
+      <nav class="navbar navbar-default navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Online Music Player</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="/"><strong>Home</strong></a></li>
+              <li><a href="/upload"><strong>Upload a Song</strong></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active welcome"><a><strong>Welcome {{ username }} </strong><span class="sr-only">(current)</span></a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav> 
+
+<!--<h1 align="center">Online Music Player</h1>
 <a href="/" align="right" class="btn btn-info btn-lg">Home</a><span>&nbsp; &nbsp; &nbsp; &nbsp;</span> 
   <a href="/upload" align="right" class="btn btn-info btn-lg">Upload</a><span>&nbsp; &nbsp; &nbsp; &nbsp;</span> 
   <a href="/logout" align="right" class="btn btn-info btn-lg">Log out </a><span>&nbsp; &nbsp; &nbsp; &nbsp;</span> 
@@ -9,7 +35,7 @@
 <br>
 <!-- All Songs --> 
 <!--<audio controls preload="auto" src="../static/uploads/Abhi_Toh_Party_Shuru_Hui_Hai.mp3"></audio> -->
-<h2>Playlist :</h2>
+<h2 align="center">Playlist</h2>
 {% for track in tracks %}
  <strong>{{ track.title }}</strong>
  <br>
