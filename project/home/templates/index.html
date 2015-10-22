@@ -40,7 +40,15 @@
  <strong>{{ track.title }}</strong>
  <br>
  <br>
-  <audio controls src="{{ track.uri }}" ></audio>  <strong>Uploaded by :</strong> {{ track.uploaded_by.name }} 
+  <audio controls src="{{ track.uri }}" ></audio>  <strong>Uploaded by :</strong>  
+  {% if username == track.uploaded_by.name %} 
+    You
+  {% else %}
+
+   {{ track.uploaded_by.name }}
+
+  {% endif %}
+
   <table>
   <tr>
   <td>
